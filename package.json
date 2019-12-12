@@ -1,0 +1,21 @@
+{
+  "name": "ffjs",
+  "version": "0.0.1",
+  "description": "Finite Field Math",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "finite",
+    "field",
+    "cryptography",
+    "math",
+    "zksnarks"
+  ],
+  "author": "Jordi Baylina",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "big-integer": "^1.6.48"
+  }
+}
