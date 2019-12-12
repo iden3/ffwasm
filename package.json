@@ -1,7 +1,7 @@
 {
-  "name": "ffjs",
+  "name": "fflib",
   "version": "0.0.1",
-  "description": "Finite Field Math",
+  "description": "Finite Field Library",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
@@ -14,7 +14,11 @@
     "zksnarks"
   ],
   "author": "Jordi Baylina",
-  "license": "GPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iden3/fflib.git"
+  },
+  "license": "GPL-3.0",
   "dependencies": {
     "big-integer": "^1.6.48"
   }
