@@ -109,7 +109,7 @@ module.exports = class ZqField {
         return a.divide(b);
     }
 
-    inverse(a) {
+    inv(a) {
         assert(!a.isZero(), "Division by zero");
         return a.modInv(this.p);
     }
@@ -149,11 +149,11 @@ module.exports = class ZqField {
     }
 
     land(a, b) {
-        return (a.isZero() || b.isZero) ? bigInt.zero : bigInt.one;
+        return (a.isZero() || b.isZero()) ? bigInt.zero : bigInt.one;
     }
 
     lor(a, b) {
-        return (a.isZero() && b.isZero) ? bigInt.zero : bigInt.one;
+        return (a.isZero() && b.isZero()) ? bigInt.zero : bigInt.one;
     }
 
     lnot(a) {
