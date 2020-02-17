@@ -20,10 +20,11 @@
   },
   "license": "GPL-3.0",
   "dependencies": {
-    "big-integer": "^1.6.48"
+    "big-integer": "^1.6.48",
+    "wasmbuilder": "0.0.8"
   },
   "devDependencies": {
-    "eslint": "^6.7.2",
-    "eslint-plugin-mocha": "^6.2.2"
+    "eslint": "^5.16.0",
+    "eslint-plugin-mocha": "^5.3.0"
   }
 }

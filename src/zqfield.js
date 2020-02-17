@@ -24,6 +24,7 @@ module.exports = class ZqField {
         this.p = p;
         this.minusone = p.minus(bigInt.one);
         this.two = bigInt(2);
+        this.half = p.shiftRight(1);
         this.bitLength = p.bitLength();
         this.mask = bigInt.one.shiftLeft(this.bitLength - 1).minus(bigInt.one);
 
@@ -76,7 +77,8 @@ module.exports = class ZqField {
     }
 
     lt(a, b) {
-        return a.lt(b) ? bigInt(1) : bigInt(0);
+        const c = this.sub(a,b);
+        return (c.gt(this.half)) ? bigInt.one : bigInt.zero;
     }
 
     eq(a, b) {
@@ -84,15 +86,18 @@ module.exports = class ZqField {
     }
 
     gt(a, b) {
-        return a.gt(b) ? bigInt(1) : bigInt(0);
+        const c = this.sub(b,a);
+        return (c.gt(this.half)) ? bigInt.one : bigInt.zero;
     }
 
     leq(a, b) {
-        return a.leq(b) ? bigInt(1) : bigInt(0);
+        const c = this.sub(b,a);
+        return (c.gt(this.half)) ? bigInt.zero : bigInt.one;
     }
 
     geq(a, b) {
-        return a.geq(b) ? bigInt(1) : bigInt(0);
+        const c = this.sub(a,b);
+        return (c.gt(this.half)) ? bigInt.zero : bigInt.one;
     }
 
     neq(a, b) {
