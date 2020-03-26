@@ -26,7 +26,7 @@ module.exports = class ZqField {
         this.two = bigInt(2);
         this.half = p.shiftRight(1);
         this.bitLength = p.bitLength();
-        this.mask = bigInt.one.shiftLeft(this.bitLength - 1).minus(bigInt.one);
+        this.mask = bigInt.one.shiftLeft(this.bitLength).minus(bigInt.one);
 
         const e = this.minusone.shiftRight(this.one);
         this.nqr = this.two;
@@ -76,32 +76,36 @@ module.exports = class ZqField {
         return a.square().mod(this.p);
     }
 
-    lt(a, b) {
-        const c = this.sub(a,b);
-        return (c.gt(this.half)) ? bigInt.one : bigInt.zero;
-    }
-
     eq(a, b) {
-        return a.eq(b) ? bigInt(1) : bigInt(0);
-    }
-
-    gt(a, b) {
-        const c = this.sub(b,a);
-        return (c.gt(this.half)) ? bigInt.one : bigInt.zero;
-    }
-
-    leq(a, b) {
-        const c = this.sub(b,a);
-        return (c.gt(this.half)) ? bigInt.zero : bigInt.one;
-    }
-
-    geq(a, b) {
-        const c = this.sub(a,b);
-        return (c.gt(this.half)) ? bigInt.zero : bigInt.one;
+        return a.eq(b) ? bigInt.one : bigInt.zero;
     }
 
     neq(a, b) {
-        return a.neq(b) ? bigInt(1) : bigInt(0);
+        return a.neq(b) ? bigInt.one : bigInt.zero;
+    }
+
+    lt(a, b) {
+        const aa = a.gt(this.half) ? a.minus(this.p) : a;
+        const bb = b.gt(this.half) ? b.minus(this.p) : b;
+        return aa.lt(bb) ? bigInt.one : bigInt.zero;
+    }
+
+    gt(a, b) {
+        const aa = a.gt(this.half) ? a.minus(this.p) : a;
+        const bb = b.gt(this.half) ? b.minus(this.p) : b;
+        return aa.gt(bb) ? bigInt.one : bigInt.zero;
+    }
+
+    leq(a, b) {
+        const aa = a.gt(this.half) ? a.minus(this.p) : a;
+        const bb = b.gt(this.half) ? b.minus(this.p) : b;
+        return aa.leq(bb) ? bigInt.one : bigInt.zero;
+    }
+
+    geq(a, b) {
+        const aa = a.gt(this.half) ? a.minus(this.p) : a;
+        const bb = b.gt(this.half) ? b.minus(this.p) : b;
+        return aa.geq(bb) ? bigInt.one : bigInt.zero;
     }
 
     div(a, b) {
@@ -128,29 +132,45 @@ module.exports = class ZqField {
     }
 
     band(a, b) {
-        return a.and(b).and(this.mask);
+        return a.and(b).and(this.mask).mod(this.p);
     }
 
     bor(a, b) {
-        return a.or(b).and(this.mask);
+        return a.or(b).and(this.mask).mod(this.p);
     }
 
     bxor(a, b) {
-        return a.xor(b).and(this.mask);
+        return a.xor(b).and(this.mask).mod(this.p);
     }
 
     bnot(a) {
-        return a.xor(this.mask).and(this.mask);
+        return a.xor(this.mask).mod(this.p);
     }
 
     shl(a, b) {
-        if (b.geq(this.bitLength)) return bigInt.zero;
-        return a.shiftLeft(b).and(this.mask);
+        if (b.lt(this.bitLength)) {
+            return a.shiftLeft(b).and(this.mask).mod(this.p);
+        } else {
+            const nb = this.p.minus(b);
+            if (nb.lt(this.bitLength)) {
+                return this.shr(a, nb);
+            } else {
+                return bigInt.zero;
+            }
+        }
     }
 
     shr(a, b) {
-        if (b.geq(this.bitLength)) return bigInt.zero;
-        return a.shiftRight(b).and(this.mask);
+        if (b.lt(this.bitLength)) {
+            return a.shiftRight(b);
+        } else {
+            const nb = this.p.minus(b);
+            if (nb.lt(this.bitLength)) {
+                return this.shl(a, nb);
+            } else {
+                return bigInt.zero;
+            }
+        }
     }
 
     land(a, b) {

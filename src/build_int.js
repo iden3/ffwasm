@@ -186,6 +186,41 @@ module.exports = function buildInt(module, n64, _prefix) {
     }
 
 
+    function buildGt() {
+        const f = module.addFunction(prefix+"_gt");
+        f.addParam("px", "i32");
+        f.addParam("py", "i32");
+        f.setReturnType("i32");
+
+        const c = f.getCodeBuilder();
+
+        function getCompCode(n) {
+            if (n==0) {
+                return  c.ret(c.i64_gt_u(
+                    c.i64_load(c.getLocal("px")),
+                    c.i64_load(c.getLocal("py"))
+                ));
+            }
+            return c.if(
+                c.i64_lt_u(
+                    c.i64_load(c.getLocal("px"), n*8 ),
+                    c.i64_load(c.getLocal("py"), n*8 )
+                ),
+                c.ret(c.i32_const(0)),
+                c.if(
+                    c.i64_gt_u(
+                        c.i64_load(c.getLocal("px"), n*8 ),
+                        c.i64_load(c.getLocal("py"), n*8 )
+                    ),
+                    c.ret(c.i32_const(1)),
+                    getCompCode(n-1)
+                )
+            );
+        }
+
+        f.addCode(getCompCode(n64-1));
+        f.addCode(c.ret(c.i32_const(0)));
+    }
 
     function buildAdd() {
 
@@ -1059,6 +1094,7 @@ module.exports = function buildInt(module, n64, _prefix) {
     buildIsZero();
     buildOne();
     buildEq();
+    buildGt();
     buildGte();
     buildAdd();
     buildSub();
@@ -1072,6 +1108,7 @@ module.exports = function buildInt(module, n64, _prefix) {
     module.exportFunction(prefix+"_one");
     module.exportFunction(prefix+"_isZero");
     module.exportFunction(prefix+"_eq");
+    module.exportFunction(prefix+"_gt");
     module.exportFunction(prefix+"_gte");
     module.exportFunction(prefix+"_add");
     module.exportFunction(prefix+"_sub");

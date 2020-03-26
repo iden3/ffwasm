@@ -1,5 +1,4 @@
-# Finite field library in Javascript
-
+# Finite field library in Wasm and Javascript
 
 ## License
 

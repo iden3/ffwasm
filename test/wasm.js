@@ -15,9 +15,99 @@ describe("field asm test", function () {
         const tv = buildTestVector2(bn128r, "add");
         await tester(bn128r, tv);
     });
+    it("bn128r sub", async () => {
+        const tv = buildTestVector2(bn128r, "sub");
+        await tester(bn128r, tv);
+    });
+    it("bn128r mul", async () => {
+        const tv = buildTestVector2(bn128r, "mul");
+        await tester(bn128r, tv);
+    });
+    it("bn128r eq", async () => {
+        const tv = buildTestVector2(bn128r, "eq");
+        await tester(bn128r, tv);
+    });
+    it("bn128r neq", async () => {
+        const tv = buildTestVector2(bn128r, "neq");
+        await tester(bn128r, tv);
+    });
+    it("bn128r gt", async () => {
+        const tv = buildTestVector2(bn128r, "gt");
+        await tester(bn128r, tv);
+    });
+    it("bn128r geq", async () => {
+        const tv = buildTestVector2(bn128r, "geq");
+        await tester(bn128r, tv);
+    });
+    it("bn128r lt", async () => {
+        const tv = buildTestVector2(bn128r, "gt");
+        await tester(bn128r, tv);
+    });
+    it("bn128r leq", async () => {
+        const tv = buildTestVector2(bn128r, "geq");
+        await tester(bn128r, tv);
+    });
+    it("bn128r idiv", async () => {
+        const tv = buildTestVector2(bn128r, "idiv");
+        await tester(bn128r, tv);
+    });
+    it("bn128r mod", async () => {
+        const tv = buildTestVector2(bn128r, "mod");
+        await tester(bn128r, tv);
+    });
+    it("bn128r pow", async () => {
+        const tv = buildTestVector2(bn128r, "pow");
+        await tester(bn128r, tv);
+    });
+    it("bn128r inv", async () => {
+        const tv = buildTestVector1(bn128r, "inv");
+        await tester(bn128r, tv);
+    });
+    it("bn128r div", async () => {
+        const tv = buildTestVector2(bn128r, "div");
+        await tester(bn128r, tv);
+    });
+    it("bn128r neg", async () => {
+        const tv = buildTestVector1(bn128r, "neg");
+        await tester(bn128r, tv);
+    });
+    it("bn128r shl", async () => {
+        const tv = buildTestVector2(bn128r, "shl");
+        await tester(bn128r, tv);
+    });
+    it("bn128r shr", async () => {
+        const tv = buildTestVector2(bn128r, "shr");
+        await tester(bn128r, tv);
+    });
+    it("bn128r band", async () => {
+        const tv = buildTestVector2(bn128r, "band");
+        await tester(bn128r, tv);
+    });
+    it("bn128r bor", async () => {
+        const tv = buildTestVector2(bn128r, "bor");
+        await tester(bn128r, tv);
+    });
+    it("bn128r bxor", async () => {
+        const tv = buildTestVector2(bn128r, "bxor");
+        await tester(bn128r, tv);
+    });
+    it("bn128r bnot", async () => {
+        const tv = buildTestVector1(bn128r, "bnot");
+        await tester(bn128r, tv);
+    });
+    it("bn128r land", async () => {
+        const tv = buildTestVector2(bn128r, "land");
+        await tester(bn128r, tv);
+    });
+    it("bn128r lor", async () => {
+        const tv = buildTestVector2(bn128r, "lor");
+        await tester(bn128r, tv);
+    });
+    it("bn128r lnot", async () => {
+        const tv = buildTestVector1(bn128r, "lnot");
+        await tester(bn128r, tv);
+    });
 });
-
-
 
 
 function buildTestVector2(p, op) {
@@ -65,6 +155,9 @@ function getCriticalNumbers(p, lim) {
     const numbers = [];
 
     addFrontier(0);
+    addFrontier(bigInt(32));
+    addFrontier(bigInt(64));
+    addFrontier(bigInt(p.bitLength()));
     addFrontier(bigInt.one.shiftLeft(31));
     addFrontier(p.minus(bigInt.one.shiftLeft(31)));
     addFrontier(bigInt.one.shiftLeft(32));

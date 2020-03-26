@@ -35,7 +35,8 @@ module.exports = function buildF1m(module, _q, _prefix, _intPrefix) {
     const pq = module.alloc(n8, utils.bigInt2BytesLE(q, n8));
 
     const pR = module.alloc(utils.bigInt2BytesLE(bigInt.one.shiftLeft(n64*64).mod(q), n8));
-    const pR2 = module.alloc(utils.bigInt2BytesLE(bigInt.one.shiftLeft(n64*64).square().mod(q), n8));
+    const pR2 = module.alloc(utils.bigInt2BytesLE(bigInt.one.shiftLeft(n64*2*64).mod(q), n8));
+    const pR3 = module.alloc(utils.bigInt2BytesLE(bigInt.one.shiftLeft(n64*3*64).mod(q), n8));
     const pOne = module.alloc(utils.bigInt2BytesLE(bigInt.one.shiftLeft(n64*64).mod(q), n8));
     const pZero = module.alloc(utils.bigInt2BytesLE(bigInt.zero, n8));
     const _minusOne = q.minus(bigInt.one);
@@ -47,7 +48,9 @@ module.exports = function buildF1m(module, _q, _prefix, _intPrefix) {
 
     module.modules[prefix] = {
         pq: pq,
+        pR: pR,
         pR2: pR2,
+        pR3: pR3,
         n64: n64,
         q: q,
         pOne: pOne,
@@ -828,30 +831,30 @@ module.exports = function buildF1m(module, _q, _prefix, _intPrefix) {
 
             // If (n==0) return 0
             c.if(
-                c.call(prefix + "_isZero", c.getLocal("n")),
+                c.call(intPrefix + "_isZero", c.getLocal("n")),
                 c.ret(
-                    c.call(prefix + "_zero", c.getLocal("r"))
+                    c.call(intPrefix + "_zero", c.getLocal("r"))
                 )
             ),
 
             c.setLocal("m", c.i32_const(s2)),
-            c.call(prefix + "_copy", c.i32_const(pNqrToT), C),
+            c.call(intPrefix + "_copy", c.i32_const(pNqrToT), C),
             c.call(prefix + "_exp", c.getLocal("n"), c.i32_const(pt), c.i32_const(n8), T),
             c.call(prefix + "_exp", c.getLocal("n"), c.i32_const(ptPlusOneOver2), c.i32_const(n8), R),
 
             c.block(c.loop(
-                c.br_if(1, c.call(prefix + "_eq", T, ONE)),
+                c.br_if(1, c.call(intPrefix + "_eq", T, ONE)),
 
                 c.call(prefix + "_square", T, SQ),
                 c.setLocal("i", c.i32_const(1)),
                 c.block(c.loop(
-                    c.br_if(1, c.call(prefix + "_eq", SQ, ONE)),
+                    c.br_if(1, c.call(intPrefix + "_eq", SQ, ONE)),
                     c.call(prefix + "_square", SQ, SQ),
                     c.setLocal("i", c.i32_add(c.getLocal("i"), c.i32_const(1))),
                     c.br(0)
                 )),
 
-                c.call(prefix + "_copy", C, B),
+                c.call(intPrefix + "_copy", C, B),
                 c.setLocal("j", c.i32_sub(c.i32_sub( c.getLocal("m"), c.getLocal("i")), c.i32_const(1)) ),
                 c.block(c.loop(
                     c.br_if(1, c.i32_eqz(c.getLocal("j"))),
@@ -871,7 +874,7 @@ module.exports = function buildF1m(module, _q, _prefix, _intPrefix) {
             c.if(
                 c.call(prefix + "_isNegative", R),
                 c.call(prefix + "_neg", R, c.getLocal("r")),
-                c.call(prefix + "_copy", R, c.getLocal("r")),
+                c.call(intPrefix + "_copy", R, c.getLocal("r")),
             )
         );
     }
@@ -888,11 +891,11 @@ module.exports = function buildF1m(module, _q, _prefix, _intPrefix) {
 
         f.addCode(
             c.if(
-                c.call(prefix + "_isZero", c.getLocal("n")),
+                c.call(intPrefix + "_isZero", c.getLocal("n")),
                 c.ret(c.i32_const(1))
             ),
             c.call(prefix + "_exp", c.getLocal("n"), c.i32_const(pe), c.i32_const(n8), AUX),
-            c.call(prefix + "_eq", AUX, ONE)
+            c.call(intPrefix + "_eq", AUX, ONE)
         );
     }
 

@@ -1,7 +1,7 @@
 {
-  "name": "fflib",
-  "version": "0.0.2",
-  "description": "Finite Field Library",
+  "name": "ffwasm",
+  "version": "0.0.3",
+  "description": "Finite Field Library In Web Assembly",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
@@ -24,7 +24,6 @@
     "wasmbuilder": "0.0.8"
   },
   "devDependencies": {
-    "eslint": "^5.16.0",
-    "eslint-plugin-mocha": "^5.3.0"
+    "eslint": "^6.8.0"
   }
 }

@@ -41,6 +41,13 @@ module.exports = async function tester(prime, tv) {
         }
         const pResult = reserveNumber();
 
+/*
+        console.log("IT: "+i);
+        for (let j=0; j<tv[i][0].length; j++) {
+            console.log(tv[i][0][j]);
+        }
+        console.log("");
+*/
         instance.exports["Fr_"+tv[i][0][tv[i][0].length-1]](pResult, ...paramPointers);
         const res = readNumber(pResult);
 
