@@ -22,8 +22,6 @@ module.exports = async function tester(prime, tv) {
 
     const code = module.build();
 
-    fs.writeFileSync("test.wasm", code);
-
     const wasmModule = await WebAssembly.compile(code);
 
     const instance = await WebAssembly.instantiate(wasmModule, {

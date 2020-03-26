@@ -1,6 +1,6 @@
 const tester = require("./test_utils/wasm_tester.js");
 const bigInt = require("big-integer");
-const ZqField = require("../index.js").ZqField;
+const ZqField = require("ffjavascript").ZqField;
 
 const bn128q = new bigInt("21888242871839275222246405745257275088696311157297823662689037894645226208583");
 const bn128r = new bigInt("21888242871839275222246405745257275088548364400416034343698204186575808495617");
