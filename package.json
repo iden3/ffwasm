@@ -21,7 +21,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "big-integer": "^1.6.48",
-    "wasmbuilder": "0.0.8"
+    "wasmbuilder": "0.0.10"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
