@@ -14,7 +14,7 @@ To generate the wasm and the wat:
 ```
 npm install
 node tools/build.js -q 21888242871839275222246405745257275088548364400416034343698204186575808495617 -n Fr
-``
+```
 
 ## License
 
