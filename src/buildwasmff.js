@@ -34,6 +34,7 @@ module.exports = function buildWasmFf(module, prefix, prime, publish) {
     ctx.pR3 = module.modules[ctx.prefixF].pR3;
     ctx.pPrime = module.modules[ctx.prefixF].pq;
     ctx.binMask = bigInt.one.shiftLeft( ctx.prime.bitLength().mod(64) ).minus(1);
+    if (ctx.binMask.eq(bigInt.zero)) ctx.binMask = bigInt("FFFFFFFFFFFFFFFF", 16);
 
     buildUtils(ctx);
     buildAdd(ctx);

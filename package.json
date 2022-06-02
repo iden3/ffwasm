@@ -21,6 +21,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "big-integer": "^1.6.48",
+    "mocha": "^10.0.0",
     "wasmbuilder": "0.0.10",
     "yargs": "^16.1.0"
   },

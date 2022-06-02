@@ -8,105 +8,112 @@ const secp256k1q = new bigInt("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 const secp256k1r = new bigInt("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141", 16);
 const mnt6753q = new bigInt("41898490967918953402344214791240637128170709919953949071783502921025352812571106773058893763790338921418070971888458477323173057491593855069696241854796396165721416325350064441470418137846398469611935719059908164220784476160001");
 const mnt6753r = new bigInt("41898490967918953402344214791240637128170709919953949071783502921025352812571106773058893763790338921418070971888253786114353726529584385201591605722013126468931404347949840543007986327743462853720628051692141265303114721689601");
+const gl = new bigInt("FFFFFFFF00000001", 16);
 
 describe("field asm test", function () {
     this.timeout(1000000000);
-    it("bn128r add", async () => {
-        const tv = buildTestVector2(bn128r, "add");
-        await tester(bn128r, tv);
-    });
-    it("bn128r sub", async () => {
-        const tv = buildTestVector2(bn128r, "sub");
-        await tester(bn128r, tv);
-    });
-    it("bn128r mul", async () => {
-        const tv = buildTestVector2(bn128r, "mul");
-        await tester(bn128r, tv);
-    });
-    it("bn128r eq", async () => {
-        const tv = buildTestVector2(bn128r, "eq");
-        await tester(bn128r, tv);
-    });
-    it("bn128r neq", async () => {
-        const tv = buildTestVector2(bn128r, "neq");
-        await tester(bn128r, tv);
-    });
-    it("bn128r gt", async () => {
-        const tv = buildTestVector2(bn128r, "gt");
-        await tester(bn128r, tv);
-    });
-    it("bn128r geq", async () => {
-        const tv = buildTestVector2(bn128r, "geq");
-        await tester(bn128r, tv);
-    });
-    it("bn128r lt", async () => {
-        const tv = buildTestVector2(bn128r, "gt");
-        await tester(bn128r, tv);
-    });
-    it("bn128r leq", async () => {
-        const tv = buildTestVector2(bn128r, "geq");
-        await tester(bn128r, tv);
-    });
-    it("bn128r idiv", async () => {
-        const tv = buildTestVector2(bn128r, "idiv");
-        await tester(bn128r, tv);
-    });
-    it("bn128r mod", async () => {
-        const tv = buildTestVector2(bn128r, "mod");
-        await tester(bn128r, tv);
-    });
-    it("bn128r pow", async () => {
-        const tv = buildTestVector2(bn128r, "pow");
-        await tester(bn128r, tv);
-    });
-    it("bn128r inv", async () => {
-        const tv = buildTestVector1(bn128r, "inv");
-        await tester(bn128r, tv);
-    });
-    it("bn128r div", async () => {
-        const tv = buildTestVector2(bn128r, "div");
-        await tester(bn128r, tv);
-    });
-    it("bn128r neg", async () => {
-        const tv = buildTestVector1(bn128r, "neg");
-        await tester(bn128r, tv);
-    });
-    it("bn128r shl", async () => {
-        const tv = buildTestVector2(bn128r, "shl");
-        await tester(bn128r, tv);
-    });
-    it("bn128r shr", async () => {
-        const tv = buildTestVector2(bn128r, "shr");
-        await tester(bn128r, tv);
-    });
-    it("bn128r band", async () => {
-        const tv = buildTestVector2(bn128r, "band");
-        await tester(bn128r, tv);
-    });
-    it("bn128r bor", async () => {
-        const tv = buildTestVector2(bn128r, "bor");
-        await tester(bn128r, tv);
-    });
-    it("bn128r bxor", async () => {
-        const tv = buildTestVector2(bn128r, "bxor");
-        await tester(bn128r, tv);
-    });
-    it("bn128r bnot", async () => {
-        const tv = buildTestVector1(bn128r, "bnot");
-        await tester(bn128r, tv);
-    });
-    it("bn128r land", async () => {
-        const tv = buildTestVector2(bn128r, "land");
-        await tester(bn128r, tv);
-    });
-    it("bn128r lor", async () => {
-        const tv = buildTestVector2(bn128r, "lor");
-        await tester(bn128r, tv);
-    });
-    it("bn128r lnot", async () => {
-        const tv = buildTestVector1(bn128r, "lnot");
-        await tester(bn128r, tv);
-    });
+    function buildPrimeTest(curve, name) {
+        it(name + " ", async () => {
+            const tv = buildTestVector2(curve, "add");
+            await tester(curve, tv);
+        });
+        it(name + " sub", async () => {
+            const tv = buildTestVector2(curve, "sub");
+            await tester(curve, tv);
+        });
+        it(name + " mul", async () => {
+            const tv = buildTestVector2(curve, "mul");
+            await tester(curve, tv);
+        });
+        it(name + " eq", async () => {
+            const tv = buildTestVector2(curve, "eq");
+            await tester(curve, tv);
+        });
+        it(name + " neq", async () => {
+            const tv = buildTestVector2(curve, "neq");
+            await tester(curve, tv);
+        });
+        it(name + " gt", async () => {
+            const tv = buildTestVector2(curve, "gt");
+            await tester(curve, tv);
+        });
+        it(name + " geq", async () => {
+            const tv = buildTestVector2(curve, "geq");
+            await tester(curve, tv);
+        });
+        it(name + " lt", async () => {
+            const tv = buildTestVector2(curve, "gt");
+            await tester(curve, tv);
+        });
+        it(name + " leq", async () => {
+            const tv = buildTestVector2(curve, "geq");
+            await tester(curve, tv);
+        });
+        it(name + " idiv", async () => {
+            const tv = buildTestVector2(curve, "idiv");
+            await tester(curve, tv);
+        });
+        it(name + " mod", async () => {
+            const tv = buildTestVector2(curve, "mod");
+            await tester(curve, tv);
+        });
+        it(name + " pow", async () => {
+            const tv = buildTestVector2(curve, "pow");
+            await tester(curve, tv);
+        });
+        it(name + " inv", async () => {
+            const tv = buildTestVector1(curve, "inv");
+            await tester(curve, tv);
+        });
+        it(name + " div", async () => {
+            const tv = buildTestVector2(curve, "div");
+            await tester(curve, tv);
+        });
+        it(name + " neg", async () => {
+            const tv = buildTestVector1(curve, "neg");
+            await tester(curve, tv);
+        });
+        it(name + " shl", async () => {
+            const tv = buildTestVector2(curve, "shl");
+            await tester(curve, tv);
+        });
+        it(name + " shr", async () => {
+            const tv = buildTestVector2(curve, "shr");
+            await tester(curve, tv);
+        });
+        it(name + " band", async () => {
+            const tv = buildTestVector2(curve, "band");
+            await tester(curve, tv);
+        });
+        it(name + " bor", async () => {
+            const tv = buildTestVector2(curve, "bor");
+            await tester(curve, tv);
+        });
+        it(name + " bxor", async () => {
+            const tv = buildTestVector2(curve, "bxor");
+            await tester(curve, tv);
+        });
+        it(name + " bnot", async () => {
+            const tv = buildTestVector1(curve, "bnot");
+            await tester(curve, tv);
+        });
+        it(name + " land", async () => {
+            const tv = buildTestVector2(curve, "land");
+            await tester(curve, tv);
+        });
+        it(name + " lor", async () => {
+            const tv = buildTestVector2(curve, "lor");
+            await tester(curve, tv);
+        });
+        it(name + " lnot", async () => {
+            const tv = buildTestVector1(curve, "lnot");
+            await tester(curve, tv);
+        });
+    }
+
+    buildPrimeTest(gl, "gl");
+    buildPrimeTest(bn128r, "bn128r");
+
 });
 
 
