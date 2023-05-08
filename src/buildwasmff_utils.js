@@ -175,7 +175,7 @@ module.exports = function buildUtils(ctx) {
                 c.ret(
                     c.i32_eqz(
                         c.call(
-                            ctx.prefixF + "_isZero",
+                            ctx.prefixI + "_isZero",
                             c.i32_add(
                                 c.getLocal("px"),
                                 c.i32_const(8)
